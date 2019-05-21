@@ -25,6 +25,8 @@ pub enum Type {
     Centos,
     /// Fedora (<https://en.wikipedia.org/wiki/Fedora_(operating_system)>)
     Fedora,
+    /// Amazon Linux
+    Amazon,
     /// Alpine Linux (<https://en.wikipedia.org/wiki/Alpine_Linux>)
     Alpine,
     /// Mac OS X/OS X/macOS (<https://en.wikipedia.org/wiki/MacOS>).
@@ -42,6 +44,7 @@ impl Display for Type {
             Type::Arch => write!(f, "Arch Linux"),
             Type::Centos => write!(f, "CentOS"),
             Type::Macos => write!(f, "Mac OS"),
+            Type::Amazon => write!(f, "Amazon Linux"),
             _ => write!(f, "{:?}", self),
         }
     }

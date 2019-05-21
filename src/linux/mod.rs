@@ -30,6 +30,7 @@ mod tests {
             | Type::Arch
             | Type::Centos
             | Type::Fedora
+            | Type::Amazon
             | Type::Alpine => (),
             os_type => {
                 panic!("Unexpected OS type: {}", os_type);

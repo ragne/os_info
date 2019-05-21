@@ -132,6 +132,7 @@ mod tests {
             Type::Macos,
             Type::Redox,
             Type::Windows,
+            Type::Amazon,
         ];
 
         let versions = [

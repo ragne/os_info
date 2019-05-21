@@ -59,7 +59,7 @@ struct ReleaseInfo<'a> {
 
 /// List of all supported distributions and the information on how to parse their version from the
 /// release file.
-const DISTRIBUTIONS: [ReleaseInfo; 4] = [
+const DISTRIBUTIONS: [ReleaseInfo; 5] = [
     ReleaseInfo {
         os_type: Type::Centos,
         path: "/etc/centos-release",
@@ -80,6 +80,11 @@ const DISTRIBUTIONS: [ReleaseInfo; 4] = [
         path: "/etc/alpine-release",
         version_regex: "",
     },
+    ReleaseInfo {
+        os_type: Type::Amazon,
+        path: "/etc/system-release",
+        version_regex: r"release\s([\w\.]+)",
+    }
 ];
 
 #[cfg(test)]
@@ -141,5 +146,19 @@ mod tests {
         let info = retrieve(&distributions).unwrap();
         assert_eq!(info.os_type(), Type::Alpine);
         assert_eq!(info.version, Version::custom("A.B.C", None));
+    }
+
+    #[test]
+    fn amazon() {
+        let mut file = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        file.push("src/linux/tests/system-release");
+
+        let path = file.into_os_string().into_string().unwrap();
+        let mut distributions = [DISTRIBUTIONS[4].clone()];
+        distributions[0].path = &path;
+
+        let info = retrieve(&distributions).unwrap();
+        assert_eq!(info.os_type(), Type::Amazon);
+        assert_eq!(info.version, Version::custom("2", None));
     }
 }
